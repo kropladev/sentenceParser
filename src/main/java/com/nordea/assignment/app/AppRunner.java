@@ -42,7 +42,7 @@ public class AppRunner {
                 sentenceHandler.putSentencesIntoMap();
                 sentenceHandler.writeAvailableSentencesToFile();
             }
-            sentenceHandler.closeFile();
+            sentenceHandler.finalizeWriters();
         } catch (IOException e) {
             LOG.error("Exception while reading data. ", e);
         }

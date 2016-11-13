@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class SentenceBuilder {
         private static int counter = 0;
-        private static int maxWordQtm = 0;
+
         private List<String> words;
 
         public  SentenceBuilder words(List<String> wordList) {
@@ -16,13 +16,6 @@ public class SentenceBuilder {
         }
 
         public Sentence build(){
-            checkWordQtm();
             return new Sentence(counter++,this.words);
         }
-
-    private void checkWordQtm() {
-        if (maxWordQtm < this.words.size()){
-            maxWordQtm = this.words.size();
-        }
-    }
 }
