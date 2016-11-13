@@ -1,6 +1,5 @@
 package com.nordea.assignment.app;
 
-import com.nordea.assignment.buffer.DataBuffer;
 import com.nordea.assignment.model.SentenceHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

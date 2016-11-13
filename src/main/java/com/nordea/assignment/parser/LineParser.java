@@ -3,11 +3,8 @@ package com.nordea.assignment.parser;
 import com.nordea.assignment.buffer.DataBuffer;
 import com.nordea.assignment.model.Sentence;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**

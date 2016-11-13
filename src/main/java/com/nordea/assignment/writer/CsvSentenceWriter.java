@@ -1,11 +1,8 @@
 package com.nordea.assignment.writer;
 
 import com.nordea.assignment.model.Sentence;
-import com.nordea.assignment.model.SentenceHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
 
 /**
  * Created by kropla on 12.11.16.

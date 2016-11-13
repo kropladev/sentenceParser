@@ -1,14 +1,8 @@
 package com.nordea.assignment.model;
 
-import org.springframework.stereotype.Component;
-
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.TreeSet;
 
 /**
  * Created by kropla on 11.11.16.

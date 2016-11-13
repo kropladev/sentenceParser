@@ -5,8 +5,6 @@ import com.nordea.assignment.model.Sentence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.xml.bind.JAXBContext;
-
 /**
  * Created by kropla on 12.11.16.
  */
