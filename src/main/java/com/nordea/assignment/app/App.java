@@ -20,9 +20,8 @@ public class App {
                 .bannerMode(Banner.Mode.OFF)
                 .run(args);
         AppRunner runner = (AppRunner) ctx.getBean("appRunner");
+
         LOG.debug("starting spring context with spring-boot");
         runner.runApplication(args);
-
     }
-
 }
