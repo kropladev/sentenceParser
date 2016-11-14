@@ -1,6 +1,7 @@
-package com.nordea.assignment.model;
+package com.nordea.assignment.app;
 
 import com.nordea.assignment.buffer.DataBuffer;
+import com.nordea.assignment.model.Sentence;
 import com.nordea.assignment.parser.Parser;
 import com.nordea.assignment.writer.SentenceWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import java.util.TreeMap;
  * Created by kropla on 12.11.16.
  */
 @Component
-public class SentenceHandler {
+public class AppFacade {
 
     @Autowired
     DataBuffer buffer;

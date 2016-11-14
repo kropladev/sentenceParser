@@ -1,6 +1,5 @@
 package com.nordea.assignment.app;
 
-import com.nordea.assignment.model.SentenceHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import java.io.*;
 public class AppRunner {
 
     @Autowired
-    SentenceHandler sentenceHandler;
+    AppFacade appFacade;
 
     private static final Logger LOG = LoggerFactory.getLogger(AppRunner.class);
 
@@ -31,12 +30,12 @@ public class AppRunner {
 
         try {
             while ((line = reader.readLine()) != null) {
-                sentenceHandler.putNewDataIntoBuffer(line);
-                sentenceHandler.getWholeAvailableSentecesFromBuffer();
-                sentenceHandler.putSentencesIntoMap();
-                sentenceHandler.writeAvailableSentencesToFile();
+                appFacade.putNewDataIntoBuffer(line);
+                appFacade.getWholeAvailableSentecesFromBuffer();
+                appFacade.putSentencesIntoMap();
+                appFacade.writeAvailableSentencesToFile();
             }
-            sentenceHandler.finalizeWriters();
+            appFacade.finalizeWriters();
         } catch (IOException e) {
             LOG.error("Exception while reading data. ", e);
         }
