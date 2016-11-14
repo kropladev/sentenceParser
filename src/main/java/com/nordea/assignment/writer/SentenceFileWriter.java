@@ -35,17 +35,22 @@ public abstract class SentenceFileWriter {
         writeHeader();
     }
 
-    public void closeFile(){
+    public void finalizeFile(){
         finishFile();
         writer.flush();
         writer.close();
     }
 
-    private void writeHeader(){
-        writer.println(header);
+    void writeHeader(){
+        if (!header.isEmpty()) {
+            writer.println(header);
+        }
     }
+
     void finishFile(){
-        writer.println(footer);
+        if (!footer.isEmpty()) {
+            writer.println(footer);
+        }
     }
 
     abstract String formatLineSentence(Sentence sentence);
@@ -55,19 +60,14 @@ public abstract class SentenceFileWriter {
             Map.Entry<Sentence, Integer> entry = it.next();
             Sentence sentence = entry.getKey();
             writeToFile(formatLineSentence(sentence));
-            //it.remove();
         }
-
-/*            for(Map.Entry entry : sentenceMap.entrySet()){
-                Sentence sentence = (Sentence) entry.getKey();
-                writeToFile(formatLineSentence(sentence));
-            }*/
-
     }
-
 
     private void writeToFile(String line){
         writer.println(line);
     }
 
+    File getFile() {
+        return file;
+    }
 }

@@ -11,5 +11,5 @@ public interface SentenceWriter {
 
     void writeSentences(Map<Sentence,Integer> sentenceMap);
 
-    void closeFile();
+    void finalizeFile();
 }

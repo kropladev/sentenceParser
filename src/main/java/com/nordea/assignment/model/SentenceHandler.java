@@ -53,12 +53,11 @@ public class SentenceHandler {
         for (Sentence sentence : availableSentences){
              sentenceMap.put(sentence,sentence.getId());
         }
-
     }
 
-    public void closeFile() {
-        xmlWriter.closeFile();
-        csvWriter.closeFile();
+    public void finalizeWriters() {
+        xmlWriter.finalizeFile();
+        csvWriter.finalizeFile();
     }
 
     public void writeAvailableSentencesToFile() {

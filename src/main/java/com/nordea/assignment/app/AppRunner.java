@@ -8,9 +8,13 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 
-
 /**
  * Created by kropla on 11.11.16.
+ * Starts application in a single thread
+ * While line is readed from file it is parsed and putted on a map with sentences
+ * in buffer bean. After that all available (whole sentences that were ended with dot)
+ * sentences are pushed from map to file writers
+ *
  */
 @Component
 public class AppRunner {
@@ -20,19 +24,9 @@ public class AppRunner {
 
     private static final Logger LOG = LoggerFactory.getLogger(AppRunner.class);
 
-    public void runApplication(String[] args) {
-        BufferedReader reader = null;
+    public void runApplication() {
 
-        if (args != null && args.length > 0){
-            try {
-                reader = new BufferedReader(new FileReader(args[0]));
-            } catch (FileNotFoundException e) {
-                LOG.error("Exception while reading file. ", e);
-            }
-        } else {
-
-            reader = new BufferedReader(new InputStreamReader(System.in));
-        }
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String line;
 
         try {
@@ -42,13 +36,11 @@ public class AppRunner {
                 sentenceHandler.putSentencesIntoMap();
                 sentenceHandler.writeAvailableSentencesToFile();
             }
-            sentenceHandler.closeFile();
+            sentenceHandler.finalizeWriters();
         } catch (IOException e) {
             LOG.error("Exception while reading data. ", e);
         }
     }
 
-    public void runApplication(){
-        runApplication(null);
-    }
+
 }

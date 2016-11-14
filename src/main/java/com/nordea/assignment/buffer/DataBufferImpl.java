@@ -21,10 +21,6 @@ public class DataBufferImpl implements DataBuffer {
         buffer.append(data);
     }
 
-    private String trimAndReplaceDuplicateWhiteSigns(String data) {
-        return data.replaceAll("\\s+"," ");
-    }
-
     @Override
     public StringBuffer getData() {
         return buffer;
@@ -37,6 +33,15 @@ public class DataBufferImpl implements DataBuffer {
         trimBuffer();
     }
 
+    @Override
+    public boolean hasEndSymbolAtIndex(int index) {
+        if(buffer.length() > index){
+            char sign = buffer.charAt(index);
+            if (sign == '.' || sign == '!' || sign == '?') return true;
+        }
+        return false;
+    }
+
     private void trimBuffer() {
         int i = 0;
         while (i < buffer.length()) {
@@ -47,15 +52,5 @@ public class DataBufferImpl implements DataBuffer {
                 return;
             }
         }
-    }
-
-
-    @Override
-    public boolean hasEndSymbolAtIndex(int index) {
-        if(buffer.length() > index){
-            char sign = buffer.charAt(index);
-            if (sign == '.' || sign == '!' || sign == '?') return true;
-        }
-        return false;
     }
 }
