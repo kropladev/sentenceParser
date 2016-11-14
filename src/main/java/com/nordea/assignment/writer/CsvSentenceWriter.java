@@ -34,7 +34,11 @@ public class CsvSentenceWriter extends SentenceFileWriter implements SentenceWri
 
     private void buildFirstColumn() {
         lineBuffer = new StringBuilder(FIRST_COL_LABEL)
-                .append(workSentence.getId());
+                .append(prepareSentenceNo());
+    }
+
+    private int prepareSentenceNo() {
+        return workSentence.getId() +1;
     }
 
     private void buildOtherColumns() {

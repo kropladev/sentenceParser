@@ -41,12 +41,16 @@ public abstract class SentenceFileWriter {
         writer.close();
     }
 
-    private void writeHeader(){
-        writer.println(header);
+    void writeHeader(){
+        if (!header.isEmpty()) {
+            writer.println(header);
+        }
     }
 
     void finishFile(){
-        writer.println(footer);
+        if (!footer.isEmpty()) {
+            writer.println(footer);
+        }
     }
 
     abstract String formatLineSentence(Sentence sentence);

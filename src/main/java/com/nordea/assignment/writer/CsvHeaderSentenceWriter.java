@@ -3,31 +3,30 @@ package com.nordea.assignment.writer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static java.nio.file.StandardOpenOption.READ;
-import static java.nio.file.StandardOpenOption.WRITE;
-import static java.nio.file.StandardOpenOption.CREATE;
 
 /**
  * Created by kropla on 13.11.16.
+ * Building header for CSV file based on maximum words quantum from sentences.
+ * Implemented solution concern on creating new header file and after that
+ * this file is merged woth created before csv file with words in sentences data.
  */
 public class CsvHeaderSentenceWriter {
     private static final Logger LOG = LoggerFactory.getLogger(CsvHeaderSentenceWriter.class);
     private static final String WORD_SYMBOL = "Word ";
     private static final String TEMP_FILE_NAME = "tempFile";
+    private static final String TEMP_FILE_NAME_SECOND = "tempToRemove";
+
     private File tempFile;
     private StringBuilder stringHeader;
     private int maximumWordQuantum;
-    private File mainCsvFileName;
+    private File mainCsvFile;
 
     public CsvHeaderSentenceWriter(int maxWordQtm, File csvFile) {
-        this.mainCsvFileName = csvFile;
+        this.mainCsvFile = csvFile;
         this.maximumWordQuantum = maxWordQtm;
     }
 
@@ -36,11 +35,15 @@ public class CsvHeaderSentenceWriter {
             generateHeaderSentence();
             writeHeaderSentenceIntoTempFile();
             mergeFiles();
+            renameFiles();
         } catch (IOException e) {
-            LOG.error("",e);
+            LOG.error("Exception during csv header writing. ",e);
         }
     }
 
+    /**
+     * Create first row in csv - header based on maximum word quantum
+     */
     private void generateHeaderSentence() {
         stringHeader = new StringBuilder();
         for (int i = 1; i <= maximumWordQuantum; i++){
@@ -48,31 +51,58 @@ public class CsvHeaderSentenceWriter {
         }
     }
 
-    private void writeHeaderSentenceIntoTempFile() {
+    /**
+     * Write prepared header into temporary file
+     * @throws FileNotFoundException
+     */
+    private void writeHeaderSentenceIntoTempFile() throws FileNotFoundException {
 
-        try {
             tempFile = new File(TEMP_FILE_NAME);
             PrintWriter writer = new PrintWriter(tempFile);
             writer.println(stringHeader.toString());
             writer.flush();
             writer.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
+    /**
+     * Merge temporary file (with header data) with csv data file created before by other writer
+     * @throws IOException
+     */
     private void mergeFiles() throws IOException {
-        Path outFile = mainCsvFileName.toPath();
+        try {
+            //init
+            FileChannel srcChannel = getRandomAccessFile(mainCsvFile, "r");
+            FileChannel destChannel = getRandomAccessFile(tempFile, "rw");
 
-        try(FileChannel out = FileChannel.open(outFile, CREATE, WRITE)) {
+            //transfer
+            destChannel.position(destChannel.size());
+            srcChannel.transferTo(0, srcChannel.size(), destChannel);
 
-            Path inFile = tempFile.toPath();
+            //close
+            srcChannel.close();
+            destChannel.close();
 
-            try(FileChannel in=FileChannel.open(inFile, READ)) {
-                for(long p = 0, l = in.size(); p < l; )
-                    p += in.transferTo(p, l-p, out);
-            }
+        } catch (FileNotFoundException fe){
+            LOG.error("Files for merge not found.", fe);
         }
+
+    }
+
+    private FileChannel getRandomAccessFile(File tempFile, String accessRights) throws FileNotFoundException {
+        return new RandomAccessFile(tempFile, accessRights).getChannel();
+    }
+
+
+    private void renameFiles() throws IOException{
+        String oldCsvName = mainCsvFile.getName();
+
+        Files.deleteIfExists(new File(TEMP_FILE_NAME_SECOND).toPath());
+        Files.deleteIfExists(mainCsvFile.toPath());
+
+        renameFile(tempFile.toPath(), oldCsvName);
+    }
+
+    private void renameFile(Path fileSource, String newName) throws IOException{
+        Files.move(fileSource, fileSource.resolveSibling(newName));
     }
 }
