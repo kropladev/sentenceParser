@@ -46,7 +46,6 @@ public class SentenceHandler {
 
     public void getWholeAvailableSentecesFromBuffer() {
         availableSentences = parser.getAllSentencesFromBuffer(buffer);
-
     }
 
     public void putSentencesIntoMap() {
@@ -55,10 +54,6 @@ public class SentenceHandler {
              sentenceMap.put(sentence,sentence.getId());
         }
 
-    }
-
-    public Map<Sentence, Integer> getSentenceMap() {
-        return sentenceMap;
     }
 
     public void closeFile() {
