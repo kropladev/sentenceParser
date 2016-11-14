@@ -35,7 +35,7 @@ public abstract class SentenceFileWriter {
         writeHeader();
     }
 
-    public void finalizeFile(){
+    public void finalizeWriter(){
         finishFile();
         writer.flush();
         writer.close();

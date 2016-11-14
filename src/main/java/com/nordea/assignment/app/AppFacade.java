@@ -57,8 +57,8 @@ public class AppFacade {
     }
 
     public void finalizeWriters() {
-        xmlWriter.finalizeFile();
-        csvWriter.finalizeFile();
+        xmlWriter.finalizeWriter();
+        csvWriter.finalizeWriter();
     }
 
     public void writeAvailableSentencesToFile() {

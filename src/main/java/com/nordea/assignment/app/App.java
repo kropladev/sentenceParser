@@ -1,5 +1,6 @@
 package com.nordea.assignment.app;
 
+import com.nordea.assignment.app.runner.AppRunnable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -18,7 +19,7 @@ import org.springframework.context.ApplicationContext;
 public class App {
     private static final Logger LOG = LoggerFactory.getLogger(App.class);
     private static ApplicationContext ctx;
-    private static AppRunner runner;
+    private static AppRunnable runner;
 
     public static void main( String[] args )  {
 
@@ -29,8 +30,6 @@ public class App {
 
     private static void createApplicationContext() {
         try {
-            LOG.debug("Creating spring application context with spring boot (without banner)");
-
             ctx = new SpringApplicationBuilder()
                     .sources(App.class)
                     .bannerMode(Banner.Mode.OFF)
@@ -43,9 +42,7 @@ public class App {
 
     private static void retrieveApplicationRunnerBean() {
         try {
-            LOG.debug("Getting runner bean from context");
-
-            runner = (AppRunner) ctx.getBean("appRunner");
+            runner = (AppRunnable) ctx.getBean("singleThreadAppRunner");
 
         } catch (BeansException be){
             LOG.error("Exception while getting runner bean from context. ", be);
@@ -54,8 +51,6 @@ public class App {
 
     private static void runApplication() {
         try {
-            LOG.debug("starting spring context with spring-boot");
-
             runner.runApplication();
 
         } catch (NullPointerException ne){

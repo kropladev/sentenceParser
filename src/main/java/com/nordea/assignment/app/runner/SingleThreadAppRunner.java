@@ -1,5 +1,6 @@
-package com.nordea.assignment.app;
+package com.nordea.assignment.app.runner;
 
+import com.nordea.assignment.app.AppFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,13 @@ import java.io.*;
  * sentences are pushed from map to file writers
  *
  */
-@Component
-public class AppRunner {
+@Component("singleThreadAppRunner")
+public class SingleThreadAppRunner implements AppRunnable {
 
     @Autowired
     AppFacade appFacade;
 
-    private static final Logger LOG = LoggerFactory.getLogger(AppRunner.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SingleThreadAppRunner.class);
 
     public void runApplication() {
 

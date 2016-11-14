@@ -54,8 +54,8 @@ public class CsvSentenceWriter extends SentenceFileWriter implements SentenceWri
     }
 
     @Override
-    public void finalizeFile(){
-        super.finalizeFile();
+    public void finalizeWriter(){
+        super.finalizeWriter();
         new CsvHeaderSentenceWriter(maxWordQtm,super.getFile()).appendHeader();
     }
 

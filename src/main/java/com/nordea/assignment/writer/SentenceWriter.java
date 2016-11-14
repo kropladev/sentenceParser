@@ -9,7 +9,14 @@ import java.util.Map;
  */
 public interface SentenceWriter {
 
+    /**
+     * Writing sentences frm map to out stream
+     * @param sentenceMap
+     */
     void writeSentences(Map<Sentence,Integer> sentenceMap);
 
-    void finalizeFile();
+    /**
+     * Finalize after writing to stream. Take lase action after write.
+     */
+    void finalizeWriter();
 }
