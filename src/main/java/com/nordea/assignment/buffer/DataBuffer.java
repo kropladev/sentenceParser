@@ -5,6 +5,10 @@ package com.nordea.assignment.buffer;
  */
 public interface DataBuffer {
 
+    /**
+     * Add
+     * @param data
+     */
     void appendNewData(String data);
 
     StringBuffer getData();

@@ -3,7 +3,6 @@ package com.nordea.assignment.writer;
 import com.nordea.assignment.model.Sentence;
 import org.springframework.stereotype.Component;
 
-
 /**
  * Created by kropla on 12.11.16.
  */
@@ -15,7 +14,9 @@ public class CsvSentenceWriter extends SentenceFileWriter implements SentenceWri
     private static final String DELIMITER = ",";
     private static final String HEADER = "";
     private static final String FOOTER = "";
-
+    private static int maxWordQtm = 0;
+    private StringBuilder lineBuffer;
+    private Sentence workSentence;
 
     CsvSentenceWriter() {
         super(FILE_NAME, HEADER, FOOTER);
@@ -24,11 +25,38 @@ public class CsvSentenceWriter extends SentenceFileWriter implements SentenceWri
 
     @Override
     String formatLineSentence(Sentence sentence) {
-        StringBuilder line = new StringBuilder(FIRST_COL_LABEL)
-                .append(sentence.getId());
-        for(String word : sentence.getWords()){
-            line.append(DELIMITER).append(word);
-        }
-        return line.toString();
+        workSentence = sentence;
+        buildFirstColumn();
+        buildOtherColumns();
+        checkMaxWordQtm();
+        return lineBuffer.toString();
     }
+
+    private void buildFirstColumn() {
+        lineBuffer = new StringBuilder(FIRST_COL_LABEL)
+                .append(prepareSentenceNo());
+    }
+
+    private int prepareSentenceNo() {
+        return workSentence.getId() +1;
+    }
+
+    private void buildOtherColumns() {
+        for(String word : workSentence.getWords()){
+            lineBuffer.append(DELIMITER).append(word);
+        }
+    }
+
+    private void checkMaxWordQtm() {
+        if (maxWordQtm < workSentence.getWords().size()){
+            maxWordQtm = workSentence.getWords().size();
+        }
+    }
+
+    @Override
+    public void finalizeFile(){
+        super.finalizeFile();
+        new CsvHeaderSentenceWriter(maxWordQtm,super.getFile()).appendHeader();
+    }
+
 }

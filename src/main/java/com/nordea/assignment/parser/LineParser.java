@@ -28,15 +28,4 @@ public class LineParser implements Parser{
 
         return  sentenceObjects;
     }
-
-
-
-
 }
-
-
-//  ParserUtils niceCommaSplitter = ParserUtils.on("(?<!\\..)[.?!]\\s+").omitEmptyStrings().trimResults();
-   /*Iterable<String> tokens2 = niceCommaSplitter.split(line);
-                for(String token: tokens2){
-                    System.out.println(token);
-                }*/
