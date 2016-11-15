@@ -6,12 +6,12 @@ package com.nordea.assignment.buffer;
 public interface DataBuffer {
 
     /**
-     * Add
+     * Add to buffer new String data taken from input.
      * @param data
      */
     void appendNewData(String data);
 
-    StringBuffer getData();
+    StringBuffer getBufferData();
 
     void removeSentenceFromBuffer(int length);
 

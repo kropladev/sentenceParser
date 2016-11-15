@@ -1,8 +1,7 @@
-package com.nordea.assignment.app;
+package com.nordea.assignment.app.facade;
 
-import com.nordea.assignment.buffer.DataBuffer;
+import com.nordea.assignment.buffer.SentenceBufferHandler;
 import com.nordea.assignment.model.Sentence;
-import com.nordea.assignment.parser.Parser;
 import com.nordea.assignment.writer.SentenceWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,21 +15,11 @@ import java.util.TreeMap;
 /**
  * Created by kropla on 12.11.16.
  */
-@Component
-public class AppFacade {
+@Component("singleThreadAppFacade")
+public class SingleThreadAppFacade implements AppFacade{
 
-    @Autowired
-    DataBuffer buffer;
-
-    @Autowired
-    Parser parser;
-
-    @Autowired
-    @Qualifier("xmlWriter")
+    private SentenceBufferHandler bufferHandler;
     private SentenceWriter xmlWriter;
-
-    @Qualifier("csvWriter")
-    @Autowired
     private SentenceWriter csvWriter;
 
     private List<Sentence> availableSentences;
@@ -42,11 +31,11 @@ public class AppFacade {
     }
 
     public void putNewDataIntoBuffer(String line) {
-        buffer.appendNewData(line);
+        bufferHandler.appendNewData(line);
     }
 
-    public void getWholeAvailableSentecesFromBuffer() {
-        availableSentences = parser.getAllSentencesFromBuffer(buffer);
+    public void retrieveAvailableSentecesFromBuffer() {
+        availableSentences = bufferHandler.getAvailableSentencesFromBuffer();
     }
 
     public void putSentencesIntoMap() {
@@ -54,11 +43,6 @@ public class AppFacade {
         for (Sentence sentence : availableSentences){
              sentenceMap.put(sentence,sentence.getId());
         }
-    }
-
-    public void finalizeWriters() {
-        xmlWriter.finalizeWriter();
-        csvWriter.finalizeWriter();
     }
 
     public void writeAvailableSentencesToFile() {
@@ -69,5 +53,28 @@ public class AppFacade {
         }
     }
 
+    public void finalizeWriters() {
+        xmlWriter.finalizeWriter();
+        csvWriter.finalizeWriter();
+    }
 
+
+
+    @Autowired
+    public void setBufferHandler(SentenceBufferHandler bufferHandler) {
+        this.bufferHandler = bufferHandler;
+    }
+
+    @Autowired
+    @Qualifier("xmlWriter")
+    public void setXmlWriter(SentenceWriter xmlWriter) {
+        this.xmlWriter = xmlWriter;
+    }
+
+
+    @Qualifier("csvWriter")
+    @Autowired
+    public void setCsvWriter(SentenceWriter csvWriter) {
+        this.csvWriter = csvWriter;
+    }
 }

@@ -13,7 +13,7 @@ public class Sentence implements Comparable<Sentence>{
 
     private List<String> words;
 
-    Sentence(int id, List<String> words) {
+    public Sentence(int id, List<String> words) {
         this.id = id;
         this.words = words;
     }

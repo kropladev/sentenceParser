@@ -1,7 +1,5 @@
 package com.nordea.assignment.parser;
 
-import com.nordea.assignment.model.Sentence;
-import com.nordea.assignment.model.SentenceBuilder;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -12,22 +10,6 @@ import java.util.List;
  * Created by kropla on 12.11.16.
  */
 public class ParserUtils {
-    public static List<String> retrieveWordsFromString(String stringSentence) {
-
-        List<String> words =  new ArrayList<>();
-        if(!stringSentence.isEmpty()) {
-            for (String word : stringSentence.split("\\s+|[,-]")) {
-                if(!word.isEmpty()) {
-                    words.add(StringUtils.deleteAny(word, ",:;()"));
-                }
-            }
-        }
-        return words;
-    }
-
-    public static void sortWords(List<String> words) {
-        Collections.sort(words, new WordComparator());
-    }
 
     /**
      * # Don't match where we have a short word beginning with a capital (for titles)
@@ -38,18 +20,35 @@ public class ParserUtils {
      *      [.?!]
      *  \s* #also match white space, so no trimming is required (optional)
 
-     * @param string
-     * @return
+     * @param string String data representing the line data.
+     * @return array of strings with whole sentences.
      */
     public static String[] parseStringToSentencesArray(String string) {
-        //return string.split("");
         return string.split("(?<!\\b\\p{Upper}\\w{0,4})(?=[.?!]\\s*\\p{Upper})([.?!]\\s*)|([.?!]\\s*)$");
     }
 
+    /**
+     * Get words List collection from stringSentence
+     * @param stringSentence
+     * @return sorted List of words String
+     */
+    public static List<String> retrieveSortedWordsFromString(String stringSentence) {
 
-    public static Sentence retrieveNewSentenceFromString(String stringSentence) {
-        List<String> words = retrieveWordsFromString(stringSentence);
+        List<String> words =  new ArrayList<>();
+        if(!stringSentence.isEmpty()) {
+            for (String word : stringSentence.split("\\s+|[,-]")) {
+                if(!word.isEmpty()) {
+                    words.add(StringUtils.deleteAny(word, ",:;()"));
+                }
+            }
+        }
         sortWords(words);
-        return new SentenceBuilder().words(words).build();
+        return words;
     }
+
+
+    static void sortWords(List<String> words) {
+        Collections.sort(words, new WordComparator());
+    }
+
 }

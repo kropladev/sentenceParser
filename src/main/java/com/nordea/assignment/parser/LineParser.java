@@ -1,10 +1,7 @@
 package com.nordea.assignment.parser;
 
-import com.nordea.assignment.buffer.DataBuffer;
-import com.nordea.assignment.model.Sentence;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,18 +11,13 @@ import java.util.List;
 public class LineParser implements Parser{
 
     @Override
-    public List<Sentence> getAllSentencesFromBuffer(DataBuffer buffer) {
-        List<Sentence> sentenceObjects = new ArrayList<>();
-
-        String [] sentenceArray = ParserUtils.parseStringToSentencesArray( buffer.getData().toString());
-
-        for (String stringSentence : sentenceArray ){
-            if (buffer.hasEndSymbolAtIndex(stringSentence.length())) {
-                sentenceObjects.add(ParserUtils.retrieveNewSentenceFromString(stringSentence));
-                buffer.removeSentenceFromBuffer(stringSentence.length());
-            }
-        }
-
-        return  sentenceObjects;
+    public String [] parseLineToArrayOfStringSentences(String lineData){
+        return ParserUtils.parseStringToSentencesArray(lineData);
     }
+
+    @Override
+    public List<String> parseSentenceStringToWords(String stringSentence) {
+        return ParserUtils.retrieveSortedWordsFromString(stringSentence);
+    }
+
 }
