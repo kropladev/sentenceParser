@@ -13,7 +13,7 @@ public class Sentence implements Comparable<Sentence>{
 
     private List<String> words;
 
-    Sentence(int id, List<String> words) {
+    public Sentence(int id, List<String> words) {
         this.id = id;
         this.words = words;
     }
@@ -58,6 +58,11 @@ public class Sentence implements Comparable<Sentence>{
     @Override
     public int compareTo(Sentence sentence) {
         return this.id - sentence.id;
+    }
+
+    @Override
+    public String toString(){
+        return "id:"+id+" |"+words.toString();
     }
 
 }

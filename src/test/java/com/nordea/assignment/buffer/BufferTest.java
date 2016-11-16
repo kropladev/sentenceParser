@@ -25,7 +25,7 @@ public class BufferTest {
 
     @Before
     public void flushBuffer(){
-        StringBuffer buf = buffer.getData();
+        StringBuffer buf = buffer.getBufferData();
         buf.delete(0,  buf.length());
     }
 
@@ -33,22 +33,22 @@ public class BufferTest {
     @Test
     public void appendDataTest(){
         buffer.appendNewData(MAIN_LINE);
-        Assert.assertTrue(buffer.getData() != null);
+        Assert.assertTrue(buffer.getBufferData() != null);
     }
 
     @Test
     public void removeSingleSentenceFromBuffer(){
         buffer.appendNewData(MAIN_LINE);
         buffer.removeSentenceFromBuffer(FIRST_SENTENCE.length());
-        Assert.assertTrue(AFTER_REMOVE_LINE.equals(buffer.getData().toString()));
+        Assert.assertTrue(AFTER_REMOVE_LINE.equals(buffer.getBufferData().toString()));
     }
 
     @Test
     public void removeAllFromBuffer(){
         buffer.appendNewData(FIRST_SENTENCE);
         buffer.removeSentenceFromBuffer(FIRST_SENTENCE.length());
-        buffer.getData().trimToSize();
-        Assert.assertTrue(buffer.getData().length() == 0);
+        buffer.getBufferData().trimToSize();
+        Assert.assertTrue(buffer.getBufferData().length() == 0);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class BufferTest {
         buffer.hasEndSymbolAtIndex(FIRST_SENTENCE.length());
         buffer.removeSentenceFromBuffer(FIRST_SENTENCE.length());
 
-        Assert.assertTrue(AFTER_REMOVE_LINE.equals(buffer.getData().toString()));
+        Assert.assertTrue(AFTER_REMOVE_LINE.equals(buffer.getBufferData().toString()));
 
     }
 

@@ -22,7 +22,7 @@ public class DataBufferImpl implements DataBuffer {
     }
 
     @Override
-    public StringBuffer getData() {
+    public StringBuffer getBufferData() {
         return buffer;
     }
 
