@@ -24,12 +24,6 @@
   <dependencies>
 
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>20.0</version>
-    </dependency>
-
-    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${slf4j.version}</version>
@@ -91,7 +85,6 @@
       <artifactId>commons-io</artifactId>
       <version>2.5</version>
     </dependency>
-
 
   </dependencies>
 
@@ -165,13 +158,8 @@
   <developers>
     <developer>
       <id>mkroplewski</id>
-      <name>John Doe</name>
+      <name>Maciej Kroplewski</name>
       <email>makroplewski@gmail.com</email>
-      <url>http://www.example.com/jdoe</url>
-      <roles>
-        <role>developer</role>
-      </roles>
-      <timezone>Europe/Warsaw</timezone>
     </developer>
   </developers>
 

@@ -60,4 +60,9 @@ public class Sentence implements Comparable<Sentence>{
         return this.id - sentence.id;
     }
 
+    @Override
+    public String toString(){
+        return "id:"+id+" |"+words.toString();
+    }
+
 }

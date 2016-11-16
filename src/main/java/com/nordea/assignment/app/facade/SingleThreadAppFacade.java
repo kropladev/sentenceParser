@@ -58,8 +58,6 @@ public class SingleThreadAppFacade implements AppFacade{
         csvWriter.finalizeWriter();
     }
 
-
-
     @Autowired
     public void setBufferHandler(SentenceBufferHandler bufferHandler) {
         this.bufferHandler = bufferHandler;
@@ -71,10 +69,10 @@ public class SingleThreadAppFacade implements AppFacade{
         this.xmlWriter = xmlWriter;
     }
 
-
     @Qualifier("csvWriter")
     @Autowired
     public void setCsvWriter(SentenceWriter csvWriter) {
         this.csvWriter = csvWriter;
     }
+
 }
