@@ -1,4 +1,6 @@
 SentenceParser.
+ver. 1.3
+
 Application, based on standard in (text file), produce two files out.xml and out.csv containing sentences data with sorted words.
 
 Building app:
