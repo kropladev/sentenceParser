@@ -22,7 +22,7 @@ import java.io.InputStreamReader;
  */
 @Component("multiThreadAppRunner")
 public class MultiThreadAppRunner implements AppRunnable {
-
+    private static final Logger LOG = LoggerFactory.getLogger(MultiThreadAppRunner.class);
     private Stopwatch stopwatch;
     private AppFacade appFacade;
     private static boolean stopRequested;
@@ -32,8 +32,6 @@ public class MultiThreadAppRunner implements AppRunnable {
     private static synchronized boolean stopRequested() {
         return stopRequested;
     }
-
-    private static final Logger LOG = LoggerFactory.getLogger(MultiThreadAppRunner.class);
 
     public void runApplication() {
         LOG.info("Runing application in two threads mode.");
@@ -67,10 +65,8 @@ public class MultiThreadAppRunner implements AppRunnable {
     class Consumer extends Thread{
         public void run() {
             while (!stopRequested()) {
-                LOG.debug("Consumer loop: stopRequested()="+stopRequested());
-                appFacade.writeAvailableSentencesToFile();
+                appFacade.writeAvailableSentences();
             }
-            LOG.debug("Consumer FINISH");
             appFacade.finalizeWriters();
             stopwatch.logDurationTime();
         }

@@ -51,7 +51,7 @@ public class MultiThreadAppFacade implements AppFacade{
                 stop = true;
                 bufferHandler.appendNewData(line);
                 retrieveAvailableSentecesFromBuffer();
-                putSentencesIntoMap();
+                putSentencesIntoBuffer();
             }
                 sentenceMap.notifyAll();
 
@@ -67,13 +67,16 @@ public class MultiThreadAppFacade implements AppFacade{
     }
 
 
-    public void putSentencesIntoMap() {
+    /**
+     * Ready for write sentences will be put into collection buffer and will wait for write
+     */
+    private void putSentencesIntoBuffer() {
         for (Sentence sentence : availableSentences){
              sentenceMap.put(sentence,sentence.getId());
         }
     }
 
-    public  void writeAvailableSentencesToFile() {
+    public  void writeAvailableSentences() {
         synchronized (sentenceMap) {
             while (!dataIsAvailable() && !stop) {
                 try {

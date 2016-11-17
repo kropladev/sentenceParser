@@ -32,6 +32,7 @@ public class SentenceBufferHandler {
     }
 
 
+
     private String[] retrieveArrayOfStringSentences() {
         String lineData = buffer.getBufferData().toString();
         return parser.parseLineToArrayOfStringSentences(lineData);

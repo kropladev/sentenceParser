@@ -6,7 +6,6 @@ package com.nordea.assignment.app.facade;
 public interface AppFacade {
     void putNewDataIntoBuffer(String line);
     void retrieveAvailableSentecesFromBuffer();
-    void putSentencesIntoMap();//TODO to be remove
-    void writeAvailableSentencesToFile();
+    void writeAvailableSentences();
     void finalizeWriters();
 }

@@ -23,6 +23,7 @@ public class SingleThreadAppFacade implements AppFacade{
     private SentenceWriter csvWriter;
 
     private List<Sentence> availableSentences;
+    //better fits Queue - but Map Interface was in requirements
     private Map<Sentence,Integer> sentenceMap;
 
     @PostConstruct
@@ -36,16 +37,17 @@ public class SingleThreadAppFacade implements AppFacade{
 
     public void retrieveAvailableSentecesFromBuffer() {
         availableSentences = bufferHandler.getAvailableSentencesFromBuffer();
+        putSentencesIntoMap();
     }
 
-    public void putSentencesIntoMap() {
+    private void putSentencesIntoMap() {
 
         for (Sentence sentence : availableSentences){
              sentenceMap.put(sentence,sentence.getId());
         }
     }
 
-    public void writeAvailableSentencesToFile() {
+    public void writeAvailableSentences() {
         if(!sentenceMap.isEmpty()) {
             xmlWriter.writeSentences(sentenceMap);
             csvWriter.writeSentences(sentenceMap);
