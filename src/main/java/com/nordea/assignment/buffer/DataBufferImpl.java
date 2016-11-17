@@ -1,7 +1,6 @@
 package com.nordea.assignment.buffer;
 
 import org.springframework.stereotype.Component;
-
 import javax.annotation.PostConstruct;
 
 /**

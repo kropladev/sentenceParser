@@ -1,7 +1,7 @@
 package com.nordea.assignment.app.runner;
 
 import com.nordea.assignment.app.facade.AppFacade;
-import com.nordea.assignment.app.runner.stopwatch.Stopwatch;
+import com.nordea.assignment.app.stopwatch.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +40,6 @@ public class MultiThreadAppRunner implements AppRunnable {
         new Consumer().start();
     }
 
-    @Autowired
-    @Qualifier("multiThreadAppFacade")
-    public void setAppFacade(AppFacade appFacade) {
-        this.appFacade = appFacade;
-    }
-
     class Producer extends Thread{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String line;
@@ -70,6 +64,12 @@ public class MultiThreadAppRunner implements AppRunnable {
             appFacade.finalizeWriters();
             stopwatch.logDurationTime();
         }
+    }
+
+    @Autowired
+    @Qualifier("multiThreadAppFacade")
+    public void setAppFacade(AppFacade appFacade) {
+        this.appFacade = appFacade;
     }
 
     @Autowired

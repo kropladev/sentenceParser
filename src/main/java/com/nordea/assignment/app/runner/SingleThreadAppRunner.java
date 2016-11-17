@@ -1,7 +1,7 @@
 package com.nordea.assignment.app.runner;
 
 import com.nordea.assignment.app.facade.AppFacade;
-import com.nordea.assignment.app.runner.stopwatch.Stopwatch;
+import com.nordea.assignment.app.stopwatch.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +33,6 @@ public class SingleThreadAppRunner implements AppRunnable {
         try {
             while ((line = reader.readLine()) != null) {
                 appFacade.putNewDataIntoBuffer(line);
-                appFacade.retrieveAvailableSentecesFromBuffer();
-                //appFacade.putSentencesIntoMap();
                 appFacade.writeAvailableSentences();
             }
             appFacade.finalizeWriters();
