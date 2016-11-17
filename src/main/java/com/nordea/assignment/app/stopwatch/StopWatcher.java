@@ -24,7 +24,7 @@ public class StopWatcher implements Stopwatch {
         try {
             stopwatch.stop();
             LOG.info("Total application duration time[s]: " + stopwatch.getTotalTimeSeconds());
-        } catch (IllegalStateException e){
+        } catch (IllegalStateException | NullPointerException e){
             LOG.warn("Stopwatch wasn't started. There is no information about time duration.");
         }
     }

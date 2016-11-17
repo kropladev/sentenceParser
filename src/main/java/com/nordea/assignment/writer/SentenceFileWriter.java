@@ -1,6 +1,8 @@
 package com.nordea.assignment.writer;
 
 import com.nordea.assignment.model.Sentence;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +14,8 @@ import java.util.Map;
  * Created by kropla on 12.11.16.
  */
 public abstract class SentenceFileWriter {
+    private static final Logger LOG = LoggerFactory.getLogger(SentenceFileWriter.class);
+
     private File file;
     private String fileName;
     private String header;
@@ -25,7 +29,7 @@ public abstract class SentenceFileWriter {
         try {
             initFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Exception while initializing file.", e);
         }
     }
 
@@ -35,16 +39,16 @@ public abstract class SentenceFileWriter {
         writeHeader();
     }
 
+    private void writeHeader(){
+        if (!header.isEmpty()) {
+            writer.println(header);
+        }
+    }
+
     public void finalizeWriter(){
         finishFile();
         writer.flush();
         writer.close();
-    }
-
-    void writeHeader(){
-        if (!header.isEmpty()) {
-            writer.println(header);
-        }
     }
 
     void finishFile(){

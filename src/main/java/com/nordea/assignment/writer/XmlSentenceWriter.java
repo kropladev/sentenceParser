@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component("xmlWriter")
 public class XmlSentenceWriter extends SentenceFileWriter implements SentenceWriter {
 
-    private static final String FILE_NAME = "out.xml";
+    static final String FILE_NAME = "out.xml";
     private static final String NODE_NAME_OPEN_SENTENCE = "<sentence>";
     private static final String NODE_NAME_CLOSE_SENTENCE = "</sentence>";
     private static final String NODE_NAME_OPEN_WORD = "<word>";

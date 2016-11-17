@@ -1,16 +1,12 @@
 package com.nordea.assignment.model;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
  * Created by kropla on 11.11.16.
  */
-@XmlRootElement
 public class Sentence implements Comparable<Sentence>{
     private int id;
-
     private List<String> words;
 
     public Sentence(int id, List<String> words) {
@@ -35,17 +31,6 @@ public class Sentence implements Comparable<Sentence>{
 
         return false;
     }
-
-
-    @XmlElement(name="word")
-    public void setWords(List<String> words) {
-        this.words = words;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
 
     public List<String> getWords() {
         return words;

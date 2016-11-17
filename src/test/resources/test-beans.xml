@@ -9,6 +9,13 @@
     <bean id="buffer" class="com.nordea.assignment.buffer.DataBufferImpl" >
     </bean>
 
+    <bean id="bufferHandler" class="com.nordea.assignment.buffer.SentenceBufferHandler" >
+    </bean>
+
+    <bean id="parser" class="com.nordea.assignment.parser.LineParser" >
+    </bean>
+
+
     <!-- more bean definitions go here -->
 
 </beans>

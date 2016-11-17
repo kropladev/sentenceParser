@@ -17,7 +17,7 @@ import java.nio.file.Path;
 public class CsvHeaderSentenceWriter {
     private static final Logger LOG = LoggerFactory.getLogger(CsvHeaderSentenceWriter.class);
     private static final String WORD_SYMBOL = "Word ";
-    private static final String TEMP_FILE_NAME = "tempFile";
+    static final String TEMP_FILE_NAME = "tempFile";
     private static final String TEMP_FILE_NAME_SECOND = "tempToRemove";
 
     private File tempFile;
