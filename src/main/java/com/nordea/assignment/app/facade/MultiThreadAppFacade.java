@@ -1,21 +1,12 @@
 package com.nordea.assignment.app.facade;
 
-import com.nordea.assignment.buffer.SentenceBufferHandler;
-import com.nordea.assignment.model.Sentence;
+import com.nordea.assignment.buffer.BufferHandler;
 import com.nordea.assignment.writer.SentenceWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Created by kropla on 12.11.16.
@@ -24,24 +15,17 @@ import java.util.concurrent.ConcurrentSkipListMap;
 public class MultiThreadAppFacade implements AppFacade{
     private static final Logger LOG = LoggerFactory.getLogger(MultiThreadAppFacade.class);
 
-    private SentenceBufferHandler bufferHandler;
+    private BufferHandler bufferHandler;
     private SentenceWriter xmlWriter;
     private SentenceWriter csvWriter;
 
-    private List<Sentence> availableSentences;
-    private Map<Sentence,Integer> sentenceMap;
-
     private static volatile boolean stop = false;
-    @PostConstruct
-    public void init(){
-        sentenceMap = new TreeMap<>();
-    }
 
     public void putNewDataIntoBuffer(String line) {
-        synchronized (sentenceMap) {
-            while (dataIsAvailable()) {
+        synchronized (bufferHandler) {
+            while (bufferHandler.bufferHasSentences()) {
                 try {
-                    sentenceMap.wait();
+                    bufferHandler.wait();
                 } catch (InterruptedException iex) {
                     LOG.error("Exception while put data. ", iex);
                 }
@@ -50,43 +34,25 @@ public class MultiThreadAppFacade implements AppFacade{
             if (line != "STOP"){
                 stop = true;
                 bufferHandler.appendNewData(line);
-                retrieveAvailableSentecesFromBuffer();
-                putSentencesIntoMap();
             }
-                sentenceMap.notifyAll();
-
+            bufferHandler.notifyAll();
         }
     }
 
-    private synchronized boolean dataIsAvailable() {
-        return !sentenceMap.isEmpty();
-    }
-
-    public void retrieveAvailableSentecesFromBuffer() {
-        availableSentences = bufferHandler.getAvailableSentencesFromBuffer();
-    }
-
-
-    public void putSentencesIntoMap() {
-        for (Sentence sentence : availableSentences){
-             sentenceMap.put(sentence,sentence.getId());
-        }
-    }
-
-    public  void writeAvailableSentencesToFile() {
-        synchronized (sentenceMap) {
-            while (!dataIsAvailable() && !stop) {
+    public  void writeAvailableSentences() {
+        synchronized (bufferHandler) {
+            while (!bufferHandler.bufferHasSentences() && !stop) {
                 try {
-                    sentenceMap.wait();
+                    bufferHandler.wait();
                 } catch (InterruptedException iex) {
                     LOG.error("Exception while writing data. ", iex);
                 }
             }
 
-            xmlWriter.writeSentences(sentenceMap);
-            csvWriter.writeSentences(sentenceMap);
-            sentenceMap.clear();
-            sentenceMap.notifyAll();
+            xmlWriter.writeSentences(bufferHandler.getSentencesFromBuffer());
+            csvWriter.writeSentences(bufferHandler.getSentencesFromBuffer());
+            bufferHandler.clearSentenceBuffer();
+            bufferHandler.notifyAll();
         }
     }
 
@@ -97,7 +63,7 @@ public class MultiThreadAppFacade implements AppFacade{
 
 
     @Autowired
-    public void setBufferHandler(SentenceBufferHandler bufferHandler) {
+    public void setBufferHandler(BufferHandler bufferHandler) {
         this.bufferHandler = bufferHandler;
     }
 

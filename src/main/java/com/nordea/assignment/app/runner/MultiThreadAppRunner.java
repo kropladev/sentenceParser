@@ -1,7 +1,7 @@
 package com.nordea.assignment.app.runner;
 
 import com.nordea.assignment.app.facade.AppFacade;
-import com.nordea.assignment.app.runner.stopwatch.Stopwatch;
+import com.nordea.assignment.app.stopwatch.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.io.InputStreamReader;
  */
 @Component("multiThreadAppRunner")
 public class MultiThreadAppRunner implements AppRunnable {
-
+    private static final Logger LOG = LoggerFactory.getLogger(MultiThreadAppRunner.class);
     private Stopwatch stopwatch;
     private AppFacade appFacade;
     private static boolean stopRequested;
@@ -33,19 +33,11 @@ public class MultiThreadAppRunner implements AppRunnable {
         return stopRequested;
     }
 
-    private static final Logger LOG = LoggerFactory.getLogger(MultiThreadAppRunner.class);
-
     public void runApplication() {
         LOG.info("Runing application in two threads mode.");
         stopwatch.startStopwatch();
         new Producer().start();
         new Consumer().start();
-    }
-
-    @Autowired
-    @Qualifier("multiThreadAppFacade")
-    public void setAppFacade(AppFacade appFacade) {
-        this.appFacade = appFacade;
     }
 
     class Producer extends Thread{
@@ -67,13 +59,17 @@ public class MultiThreadAppRunner implements AppRunnable {
     class Consumer extends Thread{
         public void run() {
             while (!stopRequested()) {
-                LOG.debug("Consumer loop: stopRequested()="+stopRequested());
-                appFacade.writeAvailableSentencesToFile();
+                appFacade.writeAvailableSentences();
             }
-            LOG.debug("Consumer FINISH");
             appFacade.finalizeWriters();
             stopwatch.logDurationTime();
         }
+    }
+
+    @Autowired
+    @Qualifier("multiThreadAppFacade")
+    public void setAppFacade(AppFacade appFacade) {
+        this.appFacade = appFacade;
     }
 
     @Autowired

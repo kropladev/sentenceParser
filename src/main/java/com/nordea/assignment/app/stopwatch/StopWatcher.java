@@ -1,4 +1,4 @@
-package com.nordea.assignment.app.runner.stopwatch;
+package com.nordea.assignment.app.stopwatch;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,11 @@ public class StopWatcher implements Stopwatch {
 
     @Override
     public void logDurationTime() {
-        stopwatch.stop();
-        LOG.info("Total application duration time[s]: " + stopwatch.getTotalTimeSeconds());
+        try {
+            stopwatch.stop();
+            LOG.info("Total application duration time[s]: " + stopwatch.getTotalTimeSeconds());
+        } catch (IllegalStateException | NullPointerException e){
+            LOG.warn("Stopwatch wasn't started. There is no information about time duration.");
+        }
     }
 }

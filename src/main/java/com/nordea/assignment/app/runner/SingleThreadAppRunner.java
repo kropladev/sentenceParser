@@ -1,7 +1,7 @@
 package com.nordea.assignment.app.runner;
 
-import com.nordea.assignment.app.facade.SingleThreadAppFacade;
-import com.nordea.assignment.app.runner.stopwatch.Stopwatch;
+import com.nordea.assignment.app.facade.AppFacade;
+import com.nordea.assignment.app.stopwatch.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.io.*;
 public class SingleThreadAppRunner implements AppRunnable {
     private static final Logger LOG = LoggerFactory.getLogger(SingleThreadAppRunner.class);
     private Stopwatch stopwatch;
-    private SingleThreadAppFacade appFacade;
+    private AppFacade appFacade;
 
     public void runApplication() {
         LOG.info("Runing application in single thread mode.");
@@ -33,9 +33,7 @@ public class SingleThreadAppRunner implements AppRunnable {
         try {
             while ((line = reader.readLine()) != null) {
                 appFacade.putNewDataIntoBuffer(line);
-                appFacade.retrieveAvailableSentecesFromBuffer();
-                appFacade.putSentencesIntoMap();
-                appFacade.writeAvailableSentencesToFile();
+                appFacade.writeAvailableSentences();
             }
             appFacade.finalizeWriters();
         } catch (IOException e) {
@@ -46,7 +44,7 @@ public class SingleThreadAppRunner implements AppRunnable {
 
     @Autowired
     @Qualifier("singleThreadAppFacade")
-    public void setAppFacade(SingleThreadAppFacade appFacade) {
+    public void setAppFacade(AppFacade appFacade) {
         this.appFacade = appFacade;
     }
 

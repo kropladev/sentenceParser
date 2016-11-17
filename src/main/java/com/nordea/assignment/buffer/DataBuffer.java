@@ -11,9 +11,22 @@ public interface DataBuffer {
      */
     void appendNewData(String data);
 
+    /**
+     * Retrieve buffer object
+     * @return
+     */
     StringBuffer getBufferData();
 
+    /**
+     * Remove whole sentence from buffer
+     * @param length
+     */
     void removeSentenceFromBuffer(int length);
 
+    /**
+     * check if dot is on index place
+     * @param index
+     * @return
+     */
     boolean hasEndSymbolAtIndex(int index);
 }

@@ -47,7 +47,7 @@ public class ParserUtils {
     }
 
 
-    static void sortWords(List<String> words) {
+    private static void sortWords(List<String> words) {
         Collections.sort(words, new WordComparator());
     }
 

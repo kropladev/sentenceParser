@@ -51,15 +51,6 @@ public class ParserUtilsWordTest {
     }
 
     @Test
-    public void retrieveWordsFromStringSortedTest(){
-        List<String> words = Arrays.asList("he", "shocking","shouted","was","What","你这肮脏的掠夺者","停在那儿");
-        List<String> wordsToTest = ParserUtils.retrieveSortedWordsFromString(MAIN_LINE);
-        ParserUtils.sortWords(wordsToTest);
-
-        Assert.assertTrue(words.equals(wordsToTest));
-    }
-
-    @Test
     public void retrieveWordsFromStringWithDashInsideTest(){
         List<String> words = Arrays.asList( "around","furious","he","marching","was","Young");
         List<String> wordsToTest = ParserUtils.retrieveSortedWordsFromString(DASH);
@@ -99,4 +90,10 @@ public class ParserUtilsWordTest {
         Assert.assertTrue(words.equals(testingWords));
     }
 
+    @Test
+    public void shouldReturnEmptyListIfStringIsEmpty(){
+        List<String> testingWords = ParserUtils.retrieveSortedWordsFromString("");
+
+        Assert.assertTrue(testingWords.isEmpty());
+    }
 }
