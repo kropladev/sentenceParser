@@ -6,13 +6,13 @@
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <!-- A simple bean definition -->
-    <bean id="buffer" class="com.nordea.assignment.buffer.DataBufferImpl" >
+    <bean id="buffer" class="com.kropla.buffer.DataBufferImpl" >
     </bean>
 
-    <bean id="bufferHandler" class="com.nordea.assignment.buffer.SentenceBufferHandler" >
+    <bean id="bufferHandler" class="com.kropla.buffer.SentenceBufferHandler" >
     </bean>
 
-    <bean id="parser" class="com.nordea.assignment.parser.LineParser" >
+    <bean id="parser" class="com.kropla.parser.LineParser" >
     </bean>
 
 
